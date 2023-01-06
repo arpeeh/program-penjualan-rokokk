@@ -1,0 +1,119 @@
+.model small
+.code
+org 100h
+start:
+         jmp mulai
+nama         db 13,10,'Masukan Nama Customer   : $'
+hp           db 13,10,'Masukan No Antrian     : $'
+lanjut       db 13,10,'Tekan y untuk memesan : $'
+lanjutt       db 13,10,'Tekan y untuk membayar : $'
+ini           db 30,?,30 dup(?)
+no1        db 13,?,13 dup(?)   
+masukkan     db 13,10,'Silahkan Pilih Produk Rokok: $'
+      
+daftar db 13,10,'+----------------------------------+'
+       db 13,10,'|             DAFTAR HARGA         |'
+       db 13,10,'+----------------------------------+'
+       db 13,10,'|NO| NAMA              | HARGA     |'
+       db 13,10,'+----------------------------------+'
+       db 13,10,'|1 | Sempoerna         | RP.31.000 |'
+       db 13,10,'+----------------------------------+'
+       db 13,10,'|2 | Esse              | RP.50.000 |'
+       db 13,10,'+----------------------------------+'
+       db 13,10,'|3 | L.A               | RP.70.000 |'
+       db 13,10,'+----------------------------------+'
+       db 13,10,'|4 | Gudang Garam      | RP.40.000 |'
+       db 13,10,'+----------------------------------+'       
+       db 13,10,'|5 | Marlboro          | RP.65.000 |'
+       db 13,10,'+----------------------------------+','$'
+    mulai:
+        mov ah,09h
+        lea dx,nama
+        int 21h
+        mov ah,0ah
+        lea dx,ini
+        int 21h
+        push dx  
+        
+        mov ah,09h
+        lea dx,hp
+        int 21h
+        mov ah,0ah
+        lea dx,no1
+        int 21h
+        push dx 
+        
+        mov ah,09h
+        mov dx,offset lanjut
+        int 21h  
+        cmp al,'y' 
+        mov ah,01h
+        int 21h
+      
+         mov ah,09h 
+         mov dx,offset daftar
+         int 21h
+         jmp proses  
+         jne error_msg
+
+error_msg:
+        mov ah,09h
+        mov dx,offset error_msg
+        int 21h
+        int 20h
+proses:
+        mov ah,09h
+        mov dx,offset masukkan
+        int 21h
+        mov ah,01
+        int 21h
+        mov bh,al
+        cmp al,'1'
+        je hasil1
+        cmp al,'2'
+        je hasil2
+        cmp al,'3'
+        je hasil3
+        cmp al,'4'
+        je hasil4
+        cmp al,'5'
+        je hasil5
+hasil1:
+    mov ah,09h
+    lea dx,pil1
+    int 21h
+    int 20h 
+hasil2:
+    mov ah,09h
+    lea dx,pil2
+    int 21h
+    int 20h
+hasil3:
+    mov ah,09h
+    lea dx,pil3
+    int 21h
+    int 20h
+hasil4:
+    mov ah,09h
+    lea dx,pil4
+    int 21h
+    int 20h  
+hasil5:
+    mov ah,09h
+    lea dx,pil5
+    int 21h
+    int 20h 
+pil1  db 13,10,'Anda memilih Sempoerna'
+       db 13,10,'Total Harga Yang Harus Anda Bayar : RP.31.000'
+pil2  db 13,10,'Anda memilih Esse'
+       db 13,10,'Total Harga Yang Harus Anda Bayar : RP.50.000'
+       db 13,10,'Pembayaran Malik Jaya Store Sukses $'
+pil3  db 13,10,'Anda memilih L.A'
+       db 13,10,'Total Harga Yang Harus Anda Bayar : RP.70.000'
+       db 13,10,'Pembayaran Malik Jaya Store Sukses $'
+pil4  db 13,10,'Anda memilih Gudang Garam'
+       db 13,10,'Total Harga Yang Harus Anda Bayar : RP.40.000'
+       db 13,10,'Pembayaran Malik Jaya Store Sukses $' 
+pil5  db 13,10,'Anda memilih Marlboro'
+       db 13,10,'Total Harga Yang Harus Anda Bayar : RP.65.000'
+       db 13,10,'Pembayaran Malik Jaya Store Sukses $'
